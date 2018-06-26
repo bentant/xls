@@ -26,11 +26,14 @@ type WorkSheet struct {
 }
 
 func (w *WorkSheet) Row(i int) *Row {
-	row := w.rows[uint16(i)]
-	if row != nil {
-		row.wb = w.wb
+	row, ok := w.rows[uint16(i)]
+	if ok {
+		if row != nil {
+			row.wb = w.wb
+		}
+		return row
 	}
-	return row
+	return nil
 }
 
 func (w *WorkSheet) parse(buf io.ReadSeeker) {
